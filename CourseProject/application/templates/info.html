@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/zeroing.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style2.css')}}">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="h1">
+                {% if info['did'] is not none %}
+                <h1><a href="/info/{{info['did']}}">{{info['dname']}}</a> >> <a href="/info/{{info['id']}}">{{info['name']}}</a></h1></h1>
+                {% else %}
+                <h1><a href="/info/{{info['id']}}">{{info['name']}}</a></h1>
+                {% endif %}
+            </div>
+            <div class="text">
+                <p>{{info['desc']}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

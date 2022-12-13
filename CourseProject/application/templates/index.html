@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/zeroing.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body onload="load_checkboxes()">
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <nav class="nav d-flex">
+            <div class="logo">
+                <img src="static/img/logo.svg" alt="">
+            </div>
+            <div action="/" method="post" class="form d-flex" id="form1" autocomplete="off">
+                <input type="text" name="to_search" class="input" autocomplete="off" onkeypress="">
+                <div class="block_buttons d-flex">
+                    <button id="search_button" class="button element_bloock_buttons" type="menu" onclick="submitForms()">
+                        <img src="static/img/search.svg" alt="">
+                    </button>
+                    <div class="element_bloock_buttons">
+                        <img src="static/img/line.svg" alt="">
+                    </div>
+                    <button type="button" class="element_bloock_buttons">
+                        <img src="static/img/icon-park-outline_setting-config.svg" alt="">
+                    </button>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+        </nav>
+        <main class="d-flex">
+            <div class="block_values">
+            {% for result in results%}
+                <div class="col {% if loop.index0 == 0 %} col-1 {% endif %}">
+                    <div class="col_block_img_with_link d-flex">
+                        <div class="col_img">
+                            <img src="static/img/info_link.svg" alt="">
+                        </div>
+                        <a href="/info/{{result['id']}}/" class="col_link">/info/{{result['id']}}/</a>
+                    </div>
+                    <div class="col_block_h3">
+                        <h3 class="col_h3">{{result['name']}}</h3>
+                    </div>
+                    <div class="col_block_p">
+                        <p class="col_p">{% if result['desc'] is not none %}{{' '.join(result['desc'].split(' ')[0:10])}}...{% endif %}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+            <form action="/" method = "post" class="main_form" id="form2">
+                <div class="block_h4">
+                    <h4 class="block_filter_h4">Фильтры</h4>
+                </div>
+                <div>
+                    <div class="block_checkbox block_checkbox_1">
+                        <input id="desc_search" type="checkbox" class="checkbox"
+                        {% if checked['description_search'] == 'On' %}
+                        checked 
+                        {% endif %} name="description_search">
+                        <label for="desc_search" class="checkbox_label">Поиск внутри определений</label>
+                    </div>
+
+                {% for discipline in disciplines %}
+                    <div class="block_checkbox">
+                        <input id="{{discipline['id']}}"  
+                        {% if session[discipline['name']] == 'On' %}
+                        checked 
+                        {% endif %} 
+                        
+                        type="checkbox"
+                        name="{{discipline['id']}}"
+                        class="checkbox">
+                        <label for="{{discipline['id']}}" class="checkbox_label">{{discipline['name']}}</label>
+                    </div>
+                {% endfor %}
+                </div>
+
+                
+            </form>
+        </main>
+    </div>
+    
+    <script src="{{url_for('static', filename='js/particles.js')}}"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+    <script>
+        particlesJS.load('particles-js', '/static/particles.json', function() {
+        console.log('callback - particles.js config loaded');
+        });   
+    </script>
+</body>
+</html>
